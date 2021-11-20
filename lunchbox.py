@@ -7,6 +7,9 @@ Features in developpement:
     - generate cooking plannings
     - generate shopping lists
 """
+
+# recipe creation is done : next step recipe search + print / edition
+
 from os import system, name as osname
 from json import loads, dumps
 
@@ -18,20 +21,42 @@ def clear():
         system("clear")
 
 class Recipe():
-   """ Stores recipe related data and methods """
+    """ Stores recipe related data and methods """
+    def __init__(self):
+        self.name = str()
+        self.ingredients = list()
 
-   def __init__(self):
-       self.name = str()
-       self.ingredients = list()
-       self.cost = float()
-       self.meals_num = int()
-       self.prep_time = int()
+    def set_rec(self):
+        clear()
+        self.name = input("Recipe Name ? > ")
+
+        clear()
+        add_ingredients = input("Would you like to add ingredients? [y/n] > ").lower()
+        while add_ingredients == 'y':
+            n = input("ingredient name? > ")
+            q = input("quantity? > ")
+            u = input("unit? > ")
+            q = int(q)
+            ing = dict()
+            ing["name"] = n
+            ing["quantity"] = q
+            ing["unit"] = u
+            self.ingredients.append(ing)
+
+            clear()
+            add_ingredients = input("Continue adding ingredients? [y/n] > ").lower()
 
 class Menu():
     """App Console UI"""
 
     def __init__(self):
-        self.text = "1. Create Recipe\n2. Exit"
+        self.text = "1. New Recipe\n" \
+               + "2. Print Recipe\n" \
+               + "3. Edit Recipe\n" \
+               + "4. List Recipes\n" \
+               + "5. Save Recipes\n" \
+               + "0. Exit\n"
+
         self.recipe_book = list()
         self.running = True
 
@@ -44,12 +69,10 @@ class Menu():
         new = Recipe()
         rec = dict()
 
-        new.name = input("Recipe Name ? > ")
+        new.set_rec()
         rec["name"] = new.name
+        rec["ingredients"] = new.ingredients
         self.recipe_book.append(rec)
-
-    def ls_recipe(self):
-        pass
 
     def choice(self):
         c = input("Please choose an option: > ")
@@ -61,25 +84,39 @@ class Menu():
         if c == 1:
             self.create_recipe()
             return 0
+
         elif c == 2:
+            self.print_recipe()
+            return 0
+
+        elif c == 0:
+            clear()
             print("Exiting...")
             menu.running = False
             return 0
+
         else:
             return c
 
+    def load_recipe_book(self):
+        clear()
+        with open('recipe.json',"r") as f:
+            recipe_str = f.read()
+            self.recipe_book = loads(recipe_str)
+
+    def save_recipe_book(self):
+        with open('recipe.json',"w") as f:
+            f.write(dumps(self.recipe_book, indent = 4))
 
 if __name__ == "__main__":
     menu = Menu()
-    while menu.running:
-        tr = Recipe()
-        menu.display()
+    menu.load_recipe_book()
 
+    while menu.running:
+        menu.display()
         user_choice = menu.choice()
         if user_choice != 0:
             print(f"{user_choice} is not a valid choice, please try again.")
 
-    print(menu.recipe_book)
-    s = dumps(menu.recipe_book, indent = 4)
-    print(s)
+    menu.save_recipe_book()
 
