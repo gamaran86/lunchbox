@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*
 
+
 """Lunchbox.py: Recipe book program
 -----------------------------------
 Features in developpement:
@@ -69,7 +70,7 @@ class Menu():
         clear()
         print(self.text)
 
-j
+
     def create_recipe(self):
         clear()
         new = Recipe()
@@ -152,7 +153,9 @@ j
     def search_recipe(self):
         """search the recipes name attribute for a match"""
 
+        #definitions for search and found variables
         searchable_str = str()
+        found = []
 
         #list all potential candidates
         for recipe in self.recipe_book:
@@ -160,21 +163,31 @@ j
         research = input("Please enter search: > ")
         pattern =  r"[a-z]*[A-Z]*" + research + r"[a-z]*[A-Z]*\b"
 
-        found = re.findall(pattern, searchable_str, flags=re.I)
+        #input protection on pattern
+        try:
+            found = re.findall(pattern, searchable_str, flags=re.I)
+        except:
+            print(pattern, " has special symbols, use only alphanumerical")
 
+        #choose the recipe if found
         if found != []:
-            #choose the searched recipe
+            #creates a list of all matches
             for i,srecipe in enumerate(found):
                 for recipe in self.recipe_book:
                     if recipe["name"] == srecipe:
                         print(f"{i}. {srecipe}")
 
+            #user choses the match he would like to print
             edit_index = input("choose recipe to use: >")
+
+            #input protection on edit_index chosen by user
             try:
                 edit_index = int(edit_index)
             except:
                 print(edit_index, " is not the number of the recipe to edit")
+                sleep(1.5)
 
+        #returns the matching recipe name as a string
         for i,srecipe in enumerate(found):
             if edit_index == i:
                 return srecipe
