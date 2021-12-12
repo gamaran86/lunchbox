@@ -8,10 +8,12 @@ Features in developpement:
     - generate shopping lists
 """
 
-# recipe creation is done : next step recipe search + print / edition
+# recipe creation is done : next step recipe search + print / dition
 
 from os import system, name as osname
 from json import loads, dumps
+from time import sleep
+import re
 
 def clear():
     """function to clear the console according to os after function execution"""
@@ -75,21 +77,35 @@ class Menu():
         self.recipe_book.append(rec)
 
     def choice(self):
+        """Allows user to input a choice when in the main menu"""
+
         c = input("Please choose an option: > ")
         try:
             c = int(c)
         except:
             return c
 
-        if c == 1:
+        if c == 1: # create recipe
             self.create_recipe()
             return 0
 
-        elif c == 2:
+        elif c == 2: # print recipe (not done)
             self.print_recipe()
             return 0
 
-        elif c == 0:
+        elif c == 3: # search and edit a recipe (on-going, currently editing the json file directly)
+            self.edit_recipe()
+            return 0
+
+        elif c == 4: # lists all recipes in recipe file
+            self.list_recipes()
+            return 0
+
+        elif c == 5: # save the changes in the recipes in the recipe book
+            self.save_recipe_book()
+            return 0
+
+        elif c == 0: # exit
             clear()
             print("Exiting...")
             menu.running = False
@@ -98,15 +114,91 @@ class Menu():
         else:
             return c
 
+
+    def list_recipes(self):
+        clear()
+        print("Recipe list:\n---------------\n")
+        for recipe in self.recipe_book:
+            name = recipe["name"]
+            print(f"- {name}")
+        input("\nPress on any key to continue... >")
+
+
     def load_recipe_book(self):
         clear()
         with open('recipe.json',"r") as f:
             recipe_str = f.read()
-            self.recipe_book = loads(recipe_str)
+            if recipe_str == None or recipe_str == "":
+                print("Empty recipe file/ No recipe.json file found")
+            else:
+                self.recipe_book = loads(recipe_str)
+
 
     def save_recipe_book(self):
+        """saves the recipes in a json file"""
+
         with open('recipe.json',"w") as f:
             f.write(dumps(self.recipe_book, indent = 4))
+        clear()
+        print("Successfully saved.")
+        sleep(1)
+
+
+    def search_recipe(self):
+        """search the recipes name attribute for a match"""
+
+        searchable_str = str()
+
+        #list all potential candidates
+        for recipe in self.recipe_book:
+            searchable_str = searchable_str + recipe["name"] + " "
+        research = input("Please enter search: > ")
+        pattern =  r"[a-z]*[A-Z]*" + research + r"[a-z]*[A-Z]*\b"
+
+        found = re.findall(pattern, searchable_str, flags=re.I)
+
+        if found != []:
+            #choose the searched recipe
+            for i,srecipe in enumerate(found):
+                for recipe in self.recipe_book:
+                    if recipe["name"] == srecipe:
+                        print(f"{i}. {srecipe}")
+            edit_index = input("choose recipe to use: >")
+            try:
+                edit_index = int(edit_index)
+            except:
+                print(edit_index, " is not the number of the recipe to edit")
+
+        for i,srecipe in enumerate(found):
+            if edit_index == i:
+                return srecipe
+
+    def edit_recipe(self):
+        """ Allows edition of one recipe """ # currently only opens the json file for modification in nvim
+
+        editable = self.search_recipe()
+        for recipe in self.recipe_book:
+            if recipe["name"] == editable:
+                system("nvim recipe.json")
+
+
+    def print_recipe(self):
+        """ prints the searche  recipe """ # currently only prints a dump of the exracted json file
+
+        printable = self.search_recipe()
+        output_print=""
+
+        for recipe in self.recipe_book:
+            if recipe["name"] == printable:
+                output_print = dumps(recipe, indent = 4)
+
+        if output_print != "":
+            print(output_print)
+            input("\ninput a key to continue> ...")
+            return output_print
+        else:
+            input("\nno match: input a key to continue> ...")
+
 
 if __name__ == "__main__":
     menu = Menu()
@@ -117,6 +209,5 @@ if __name__ == "__main__":
         user_choice = menu.choice()
         if user_choice != 0:
             print(f"{user_choice} is not a valid choice, please try again.")
-
+            sleep(2)
     menu.save_recipe_book()
-

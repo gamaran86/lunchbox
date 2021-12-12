@@ -1,0 +1,67 @@
+[
+    {
+        "name": "Crepes",
+        "ingredients": [
+            {
+                "name": "Farine",
+                "quantity": 300,
+                "unit": "g"
+            },
+            {
+                "name": "sucre",
+                "quantity": 3,
+                "unit": "c.a.s"
+            },
+            {
+                "name": "huile",
+                "quantity": 2,
+                "unit": "c.a.s."
+            },
+            {
+                "name": "lait",
+                "quantity": 60,
+                "unit": "cL"
+            },
+            {
+                "name": "beurre",
+                "quantity": 50,
+                "unit": "g"
+            }
+        ]
+    },
+    {
+        "name": "Crepine",
+        "ingredients": [
+            {
+                "name": "Chair a saucisse",
+                "quantity": 250,
+                "unit": "g"
+            },
+            {
+                "name": "Salade",
+                "quantity": 1,
+                "unit": "calibre"
+            },
+            {
+                "name": "Crepine",
+                "quantity": 6,
+                "unit": "pcs"
+            }
+        ]
+    },
+    {
+        "name": "TomateMozza",
+        "ingredients": [
+            {
+                "name": "Tomate",
+                "quantity": 6,
+                "unit": "pcs"
+            },
+            {
+                "name": "Mozzarella",
+                "quantity": 200,
+                "unit": "g"
+            }
+        ]
+    }
+]
