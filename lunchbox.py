@@ -33,28 +33,41 @@ class Recipe():
 
     def set_rec(self):
         clear()
-        self.name = input("Recipe Name ? > ")
 
+        #recipe name def
+        self.name = input("Recipe Name ? > ")
         clear()
+
+        #creation of ingredient list
         add_ingredients = input("Would you like to add ingredients? [y/n] > ").lower()
         while add_ingredients == 'y':
             n = input("ingredient name? > ")
             q = input("quantity? > ")
             u = input("unit? > ")
-            q = int(q)
-            ing = dict()
-            ing["name"] = n
-            ing["quantity"] = q
-            ing["unit"] = u
-            self.ingredients.append(ing)
 
+            #secure user input for integer conversion
+            try:
+                if "." in q:
+                    q = float(q)
+                else:
+                    q = int(q)
+                ing = dict()
+                ing["name"] = n
+                ing["quantity"] = q
+                ing["unit"] = u
+                self.ingredients.append(ing)
+            except:
+                print("there was an error with your quantity, \
+please use only integers and floats")
+            sleep(1.5)
+            #continue adding ingredients or exit the edition loop
             clear()
             add_ingredients = input("Continue adding ingredients? [y/n] > ").lower()
 
 class Menu():
     """App Console UI"""
-
     def __init__(self):
+
         self.text = "1. New Recipe\n" \
                + "2. Print Recipe\n" \
                + "3. Edit Recipe\n" \

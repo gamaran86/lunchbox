@@ -93,5 +93,25 @@
                 "unit": "g"
             }
         ]
+    },
+    {
+        "name": "FondueSavoyarde",
+        "ingredients": [
+            {
+                "name": "Raclette",
+                "quantity": 1.6,
+                "unit": "g"
+            },
+            {
+                "name": "beaufort",
+                "quantity": 2,
+                "unit": "g"
+            },
+            {
+                "name": "comte",
+                "quantity": 34,
+                "unit": "kg"
+            }
+        ]
     }
 ]
