@@ -63,5 +63,35 @@
                 "unit": "g"
             }
         ]
+    },
+    {
+        "name": "Pain_au_Nutella",
+        "ingredients": [
+            {
+                "name": "Pain",
+                "quantity": 2,
+                "unit": "tranches"
+            },
+            {
+                "name": "Nutella",
+                "quantity": 30,
+                "unit": "g"
+            }
+        ]
+    },
+    {
+        "name": "CoffeeFrenchPress",
+        "ingredients": [
+            {
+                "name": "water",
+                "quantity": 150,
+                "unit": "mL"
+            },
+            {
+                "name": "coffee",
+                "quantity": 10,
+                "unit": "g"
+            }
+        ]
     }
 ]

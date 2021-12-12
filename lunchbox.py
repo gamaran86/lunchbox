@@ -22,11 +22,13 @@ def clear():
     else:
         system("clear")
 
+
 class Recipe():
     """ Stores recipe related data and methods """
     def __init__(self):
         self.name = str()
         self.ingredients = list()
+
 
     def set_rec(self):
         clear()
@@ -62,10 +64,12 @@ class Menu():
         self.recipe_book = list()
         self.running = True
 
+
     def display(self):
         clear()
         print(self.text)
 
+j
     def create_recipe(self):
         clear()
         new = Recipe()
@@ -75,6 +79,7 @@ class Menu():
         rec["name"] = new.name
         rec["ingredients"] = new.ingredients
         self.recipe_book.append(rec)
+
 
     def choice(self):
         """Allows user to input a choice when in the main menu"""
@@ -163,6 +168,7 @@ class Menu():
                 for recipe in self.recipe_book:
                     if recipe["name"] == srecipe:
                         print(f"{i}. {srecipe}")
+
             edit_index = input("choose recipe to use: >")
             try:
                 edit_index = int(edit_index)
@@ -173,10 +179,12 @@ class Menu():
             if edit_index == i:
                 return srecipe
 
+
     def edit_recipe(self):
         """ Allows edition of one recipe """ # currently only opens the json file for modification in nvim
 
         editable = self.search_recipe()
+
         for recipe in self.recipe_book:
             if recipe["name"] == editable:
                 system("nvim recipe.json")
@@ -196,6 +204,7 @@ class Menu():
             print(output_print)
             input("\ninput a key to continue> ...")
             return output_print
+
         else:
             input("\nno match: input a key to continue> ...")
 
@@ -207,7 +216,9 @@ if __name__ == "__main__":
     while menu.running:
         menu.display()
         user_choice = menu.choice()
+
         if user_choice != 0:
             print(f"{user_choice} is not a valid choice, please try again.")
             sleep(2)
+
     menu.save_recipe_book()
