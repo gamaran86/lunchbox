@@ -1,6 +1,7 @@
 [
     {
         "name": "Crepes",
+        "code": "Crepes",
         "ingredients": [
             {
                 "name": "Farine",
@@ -31,6 +32,7 @@
     },
     {
         "name": "Crepine",
+        "code": "Crepine",
         "ingredients": [
             {
                 "name": "Chair a saucisse",
@@ -51,6 +53,7 @@
     },
     {
         "name": "TomateMozza",
+        "code": "TomateMozza",
         "ingredients": [
             {
                 "name": "Tomate",
@@ -66,6 +69,7 @@
     },
     {
         "name": "Pain_au_Nutella",
+        "code": "PainAuNutella",
         "ingredients": [
             {
                 "name": "Pain",
@@ -81,6 +85,7 @@
     },
     {
         "name": "CoffeeFrenchPress",
+        "code": "CoffeeFrenchPress",
         "ingredients": [
             {
                 "name": "water",
@@ -96,6 +101,7 @@
     },
     {
         "name": "FondueSavoyarde",
+        "code": "FondueSavoyarde",
         "ingredients": [
             {
                 "name": "Raclette",
@@ -113,5 +119,41 @@
                 "unit": "kg"
             }
         ]
-    }
+    },
+    {
+        "name": "Pizza Pepperoni",
+        "code": "Pizza Pepperoni",
+        "ingredients": [
+            {
+                "name": "Farine",
+                "quantity": 500,
+                "unit": "g"
+            },
+            {
+                "name": "eau",
+                "quantity": 200,
+                "unit": "mL"
+            },
+            {
+                "name": "Tomate",
+                "quantity": 4,
+                "unit": "pcs"
+            },
+            {
+                "name": "Huile d'olive",
+                "quantity": 20,
+                "unit": "mL"
+            },
+            {
+                "name": "Pepperoni",
+                "quantity": 3,
+                "unit": "pcs"
+            },
+            {
+                "name": "Chorizo picante",
+                "quantity": 5,
+                "unit": "tranches"
+            }
+        ]
+    },
 ]

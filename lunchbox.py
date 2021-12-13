@@ -16,6 +16,25 @@ from json import loads, dumps
 from time import sleep
 import re
 
+def compact_name(name):
+    """Function to reformat names so that search is easier with name_spaces"""
+
+    if " " in name: #separation des mots
+        spl = name.split(" ")
+
+        for i,_ in enumerate(spl): #construction du format "code"
+            spl[i] = spl[i][0].upper() + spl[i][1:]
+        new_name = "".join(spl)
+        return new_name
+
+    else:
+        return name
+
+def isgoodname(name):
+    """Tests if name parameter is alphanumerical + space(true) or something else (false)"""
+    r = re.compile("^[a-zA-Z ]*$")
+    return r.match(name) is None
+
 def clear():
     """function to clear the console according to os after function execution"""
     if osname == 'nt':
@@ -28,14 +47,19 @@ class Recipe():
     """ Stores recipe related data and methods """
     def __init__(self):
         self.name = str()
+        self.code = str()
         self.ingredients = list()
 
 
     def set_rec(self):
         clear()
+        self.name="_"
 
         #recipe name def
-        self.name = input("Recipe Name ? > ")
+        while isgoodname(self.name):
+            self.name = input("Recipe Name ? > ")
+
+        self.code = compact_name(self.name)
         clear()
 
         #creation of ingredient list
@@ -91,6 +115,7 @@ class Menu():
 
         new.set_rec()
         rec["name"] = new.name
+        rec["code"] = new.code
         rec["ingredients"] = new.ingredients
         self.recipe_book.append(rec)
 
@@ -144,6 +169,8 @@ class Menu():
 
 
     def load_recipe_book(self):
+        """Loads the  recipes from a json file"""
+
         clear()
         with open('recipe.json',"r") as f:
             recipe_str = f.read()
@@ -172,7 +199,7 @@ class Menu():
 
         #list all potential candidates
         for recipe in self.recipe_book:
-            searchable_str = searchable_str + recipe["name"] + " "
+            searchable_str = searchable_str + recipe["code"] + " "
         research = input("Please enter search: > ")
         pattern =  r"[a-z]*[A-Z]*" + research + r"[a-z]*[A-Z]*\b"
 
@@ -187,8 +214,9 @@ class Menu():
             #creates a list of all matches
             for i,srecipe in enumerate(found):
                 for recipe in self.recipe_book:
-                    if recipe["name"] == srecipe:
-                        print(f"{i}. {srecipe}")
+                    if recipe["code"] == srecipe:
+                        name = recipe["name"]
+                        print(f"{i}. {name}")
 
             #user choses the match he would like to print
             edit_index = input("choose recipe to use: >")
@@ -212,8 +240,10 @@ class Menu():
         editable = self.search_recipe()
 
         for recipe in self.recipe_book:
-            if recipe["name"] == editable:
+            if recipe["code"] == editable:
                 system("nvim recipe.json")
+
+        self.load_recipe_book()
 
 
     def print_recipe(self):
@@ -223,7 +253,7 @@ class Menu():
         output_print=""
 
         for recipe in self.recipe_book:
-            if recipe["name"] == printable:
+            if recipe["code"] == printable:
                 output_print = dumps(recipe, indent = 4)
 
         if output_print != "":
