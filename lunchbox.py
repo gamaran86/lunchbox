@@ -97,6 +97,7 @@ class Menu():
                + "3. Edit Recipe\n" \
                + "4. List Recipes\n" \
                + "5. Save Recipes\n" \
+               + "6. Delete Recipe\n" \
                + "0. Exit\n"
 
         self.recipe_book = list()
