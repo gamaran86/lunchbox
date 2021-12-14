@@ -149,6 +149,10 @@ class Menu():
             self.save_recipe_book()
             return 0
 
+        elif c == 6: # deletes a searched recipe
+            self.delete_recipe()
+            return 0
+
         elif c == 0: # exit
             clear()
             print("Exiting...")
@@ -264,6 +268,26 @@ class Menu():
         else:
             input("\nno match: input a key to continue> ...")
 
+
+    def confirmation(self):
+        delete_sentence = input("type DELETE if you want to delete permanently > ")
+        if delete_sentence == "DELETE":
+            return True
+        else:
+            return False
+
+    def delete_recipe(self):
+        """deletes chosen recipes based on a search """
+
+        deletable = self.search_recipe()
+
+        for recipe in self.recipe_book:
+            if recipe["code"] == deletable:
+                if self.confirmation():
+                    todel = recipe
+        self.recipe_book.remove(todel)
+        print(self.recipe_book)
+        input("\ninput a key to continue> ...")
 
 if __name__ == "__main__":
     menu = Menu()

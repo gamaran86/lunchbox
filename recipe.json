@@ -68,22 +68,6 @@
         ]
     },
     {
-        "name": "Pain_au_Nutella",
-        "code": "PainAuNutella",
-        "ingredients": [
-            {
-                "name": "Pain",
-                "quantity": 2,
-                "unit": "tranches"
-            },
-            {
-                "name": "Nutella",
-                "quantity": 30,
-                "unit": "g"
-            }
-        ]
-    },
-    {
         "name": "CoffeeFrenchPress",
         "code": "CoffeeFrenchPress",
         "ingredients": [
@@ -155,5 +139,5 @@
                 "unit": "tranches"
             }
         ]
-    },
+    }
 ]
