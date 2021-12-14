@@ -9,6 +9,7 @@ Features in developpement:
     - generate shopping lists
 """
 
+
 # recipe creation is done : next step recipe search + print / dition
 
 from os import system, name as osname
@@ -81,9 +82,11 @@ class Recipe():
                 ing["unit"] = u
                 self.ingredients.append(ing)
             except:
-                print("there was an error with your quantity, \
-please use only integers and floats")
+                print("there was an error with your quantity, " \
+                    + "please use only integers and floats")
+
             sleep(1.5)
+
             #continue adding ingredients or exit the edition loop
             clear()
             add_ingredients = input("Continue adding ingredients? [y/n] > ").lower()
@@ -98,6 +101,9 @@ class Menu():
                + "4. List Recipes\n" \
                + "5. Save Recipes\n" \
                + "6. Delete Recipe\n" \
+               + "7. Config Meal Planner\n" \
+               + "8. Plan Meal\n" \
+               + "9. Generate Shopping List\n" \
                + "0. Exit\n"
 
         self.recipe_book = list()
@@ -153,6 +159,15 @@ class Menu():
 
         elif c == 6: # deletes a searched recipe
             self.delete_recipe()
+            return 0
+
+        elif c == 7: # Configuration of the meal planner
+            return 0
+
+        elif c == 8: # Creates a meal planning
+            return 0
+
+        elif c == 9: # Creates a shopping list
             return 0
 
         elif c == 0: # exit
@@ -299,7 +314,6 @@ class Menu():
                     todel = recipe
         self.recipe_book.remove(todel)
         input("\ninput a key to continue> ...")
-
 
 if __name__ == "__main__":
 
