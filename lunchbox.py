@@ -125,6 +125,7 @@ class Menu():
         """Allows user to input a choice when in the main menu"""
 
         c = input("Please choose an option: > ")
+
         try:
             c = int(c)
         except:
@@ -167,9 +168,11 @@ class Menu():
     def list_recipes(self):
         clear()
         print("Recipe list:\n---------------\n")
+
         for recipe in self.recipe_book:
             name = recipe["name"]
             print(f"- {name}")
+
         input("\nPress on any key to continue... >")
 
 
@@ -177,8 +180,10 @@ class Menu():
         """Loads the  recipes from a json file"""
 
         clear()
+
         with open('recipe.json',"r") as f:
             recipe_str = f.read()
+
             if recipe_str == None or recipe_str == "":
                 print("Empty recipe file/ No recipe.json file found")
             else:
@@ -190,6 +195,7 @@ class Menu():
 
         with open('recipe.json',"w") as f:
             f.write(dumps(self.recipe_book, indent = 4))
+
         clear()
         print("Successfully saved.")
         sleep(1)
@@ -205,6 +211,7 @@ class Menu():
         #list all potential candidates
         for recipe in self.recipe_book:
             searchable_str = searchable_str + recipe["code"] + " "
+
         research = input("Please enter search: > ")
         pattern =  r"[a-z]*[A-Z]*" + research + r"[a-z]*[A-Z]*\b"
 
@@ -271,11 +278,15 @@ class Menu():
 
 
     def confirmation(self):
+        """ Quick confirmation for deletion """
+
         delete_sentence = input("type DELETE if you want to delete permanently > ")
+
         if delete_sentence == "DELETE":
             return True
         else:
             return False
+
 
     def delete_recipe(self):
         """deletes chosen recipes based on a search """
@@ -287,11 +298,13 @@ class Menu():
                 if self.confirmation():
                     todel = recipe
         self.recipe_book.remove(todel)
-        print(self.recipe_book)
         input("\ninput a key to continue> ...")
 
+
 if __name__ == "__main__":
+
     menu = Menu()
+
     menu.load_recipe_book()
 
     while menu.running:
