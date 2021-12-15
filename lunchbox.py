@@ -15,6 +15,7 @@ Features in developpement:
 from os import system, name as osname
 from json import loads, dumps
 from time import sleep
+from random import choices as random_choices
 import re
 
 def compact_name(name):
@@ -91,6 +92,26 @@ class Recipe():
             clear()
             add_ingredients = input("Continue adding ingredients? [y/n] > ").lower()
 
+
+class Meal_plan():
+    def __init__(self):
+        self.n_meals = str()
+
+    def configure(self):
+        continue_config = True
+        while (not isinstance(self.n_meals,int)) or continue_config:
+            clear()
+            self.n_meals = input("how many meals this week > ")
+            try:
+                self.n_meals = int(self.n_meals)
+                continue_config = False
+            except:
+                print("Wrong input only integer numbers\n")
+    def gen_plan(self, recipe_book):
+        meals = random_choices(recipe_book,k=self.n_meals)
+
+        return meals
+
 class Menu():
     """App Console UI"""
     def __init__(self):
@@ -101,13 +122,13 @@ class Menu():
                + "4. List Recipes\n" \
                + "5. Save Recipes\n" \
                + "6. Delete Recipe\n" \
-               + "7. Config Meal Planner\n" \
-               + "8. Plan Meal\n" \
-               + "9. Generate Shopping List\n" \
+               + "7. Meal Planner\n" \
+               + "8. Generate Shopping List\n" \
                + "0. Exit\n"
 
         self.recipe_book = list()
         self.running = True
+        self.meal_plan = Meal_plan()
 
 
     def display(self):
@@ -162,6 +183,7 @@ class Menu():
             return 0
 
         elif c == 7: # Configuration of the meal planner
+            self.meal_planning()
             return 0
 
         elif c == 8: # Creates a meal planning
@@ -314,6 +336,15 @@ class Menu():
                     todel = recipe
         self.recipe_book.remove(todel)
         input("\ninput a key to continue> ...")
+
+
+    def meal_planning(self):
+        self.meal_plan.configure()
+        plan = self.meal_plan.gen_plan(self.recipe_book)
+        for recipe in plan:
+            print(recipe["name"])
+        input("\ninput a key to continue> ...")
+
 
 if __name__ == "__main__":
 
