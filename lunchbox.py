@@ -96,7 +96,7 @@ class Recipe():
 class Meal_plan():
     def __init__(self):
         self.n_meals = str()
-
+        self.meals = dict()
     def configure(self):
         continue_config = True
         while (not isinstance(self.n_meals,int)) or continue_config:
@@ -108,14 +108,16 @@ class Meal_plan():
             except:
                 print("Wrong input only integer numbers\n")
     def gen_plan(self, recipe_book):
-        meals = random_choices(recipe_book,k=self.n_meals)
-
-        return meals
+        self.meals = random_choices(recipe_book,k=self.n_meals)
+        return self.meals
 
 class Menu():
     """App Console UI"""
     def __init__(self):
 
+        self.meal_plan = Meal_plan()
+        self.recipe_book = list()
+        self.running = True
         self.text = "1. New Recipe\n" \
                + "2. Print Recipe\n" \
                + "3. Edit Recipe\n" \
@@ -126,9 +128,6 @@ class Menu():
                + "8. Generate Shopping List\n" \
                + "0. Exit\n"
 
-        self.recipe_book = list()
-        self.running = True
-        self.meal_plan = Meal_plan()
 
 
     def display(self):
@@ -187,6 +186,7 @@ class Menu():
             return 0
 
         elif c == 8: # Creates a meal planning
+            self.shopping()
             return 0
 
         elif c == 9: # Creates a shopping list
@@ -279,7 +279,7 @@ class Menu():
 
         #returns the matching recipe name as a string
         for i,srecipe in enumerate(found):
-            if edit_index == i:
+           if edit_index == i:
                 return srecipe
 
 
@@ -343,6 +343,15 @@ class Menu():
         plan = self.meal_plan.gen_plan(self.recipe_book)
         for recipe in plan:
             print(recipe["name"])
+        input("\ninput a key to continue> ...")
+
+    def shopping(self):
+        for recipe in self.meal_plan.meals:
+            for ingredient in recipe["ingredients"]:
+                n = ingredient["name"]
+                q = ingredient["quantity"]
+                u = ingredient["unit"]
+                print(f"- {n} {q} {u}")
         input("\ninput a key to continue> ...")
 
 
