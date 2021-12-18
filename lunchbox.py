@@ -3,14 +3,8 @@
 
 """Lunchbox.py: Recipe book program
 -----------------------------------
-Features in developpement:
-    - create, save, load and display recipes, ingredients
-    - generate cooking plannings
-    - generate shopping lists
 """
 
-
-# recipe creation is done : next step recipe search + print / dition
 
 from os import system, name as osname
 from json import loads, dumps
@@ -32,13 +26,15 @@ def compact_name(name):
     else:
         return name
 
+
 def isgoodname(name):
     """Tests if name parameter is alphanumerical + space(true) or something else (false)"""
     r = re.compile("^[a-zA-Z ]*$")
     return r.match(name) is None
 
+
 def clear():
-    """function to clear the console according to os after function execution"""
+    """clears the console according to os after function execution"""
     if osname == 'nt':
         system("cls")
     else:
@@ -111,6 +107,7 @@ class Meal_plan():
         self.meals = random_choices(recipe_book,k=self.n_meals)
         return self.meals
 
+
 class Menu():
     """App Console UI"""
     def __init__(self):
@@ -125,7 +122,6 @@ class Menu():
                + "5. Save Recipes\n" \
                + "6. Delete Recipe\n" \
                + "7. Meal Planner\n" \
-               + "8. Generate Shopping List\n" \
                + "0. Exit\n"
 
 
@@ -183,13 +179,6 @@ class Menu():
 
         elif c == 7: # Configuration of the meal planner
             self.meal_planning()
-            return 0
-
-        elif c == 8: # Creates a meal planning
-            self.shopping()
-            return 0
-
-        elif c == 9: # Creates a shopping list
             return 0
 
         elif c == 0: # exit
@@ -339,24 +328,46 @@ class Menu():
 
 
     def meal_planning(self):
-        self.meal_plan.configure()
-        plan = self.meal_plan.gen_plan(self.recipe_book)
-        for recipe in plan:
+        """ Meal planner function. Prints random recipes and list of ingredients associated"""
+
+        self.meal_plan.configure() # call the prompt for n of meal
+        plan = self.meal_plan.gen_plan(self.recipe_book) # generation of the list
+
+        clear()
+
+        print("Recipe planning\n")
+        print("---------------")
+
+        for recipe in plan: #printing the list of reciepes
             print(recipe["name"])
-        input("\ninput a key to continue> ...")
+
+        print("\n--------------------------------------------------------\n")
+
+        self.shopping()
+
 
     def shopping(self):
-        for recipe in self.meal_plan.meals:
-            for ingredient in recipe["ingredients"]:
-                n = ingredient["name"]
-                q = ingredient["quantity"]
-                u = ingredient["unit"]
-                print(f"- {n} {q} {u}")
+        """ Shopping list generation from the recipe plan """
+
+        shop_list = dict()
+
+        for recipe in self.meal_plan.meals: #find the recipes in the plan
+            for ingredient in recipe["ingredients"]: #find the ingredients for each recipe
+
+                if ingredient["name"] in shop_list.keys(): #add ingredient qty
+                    shop_list[ingredient["name"]][0] += ingredient["quantity"]
+
+                else: #create ingredient
+                    shop_list[ingredient["name"]] = [ingredient["quantity"], ingredient["unit"]]
+
+        for ing, val in shop_list.items(): #print the shopping list
+            print("- {} {} {}".format(ing, val[0], val[1]))
+
         input("\ninput a key to continue> ...")
 
 
 if __name__ == "__main__":
-
+    """main loop"""
     menu = Menu()
 
     menu.load_recipe_book()
